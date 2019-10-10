@@ -44,14 +44,18 @@ export default class Configure extends Command {
       return;
     }
 
+    // Check git working tree
+    const result = shelljs.exec("git status --porcelain");
+    if (result !== "") {
+      console.log(
+        chalk.red("Unclean working tree. Commit or stash changes first.")
+      );
+      return;
+    }
+
     console.log(
       chalk.yellow(
         "This process will make changes to the file system of your project."
-      )
-    );
-    console.log(
-      chalk.yellow(
-        "It is highly recommended that you do this after committing or stashing all working changes so you can revert with git if needed."
       )
     );
 
